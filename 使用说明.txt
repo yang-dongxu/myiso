@@ -1,0 +1,12 @@
+环境要求：
+	python3.6
+	pandas
+	pyqt5
+	gcmstools
+	有图形显示界面
+使用方法：
+	双击运行myiso.py,选择要扣除天然同位素的CDF文件或文件夹
+	运行结果：在存有myiso.py的文件夹中，会自动建立一个叫result的文件夹，中有分析结果excel
+	
+	可用demo文件夹的数据进行尝试
+	如需替换保留时间，可用notepad++打开molecules.dat，按照格式进行修改
