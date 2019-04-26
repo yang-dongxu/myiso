@@ -9,7 +9,7 @@ from gcmstools.filetypes import AiaFile
 
 class Data_CDF:
     
-    def __init__(self,dataname,derivated=True, A=1,W=5,TH=1.2):
+    def __init__(self,dataname,derivated=True, A=0.1,W=5,TH=1.2):
         self.file_name=dataname
         '''dataname为输入的文件名，derivated为True表示衍生化，A表示保留时间的振幅'''
         self.data=AiaFile(dataname)
@@ -125,15 +125,15 @@ class Data_CDF:
         m=pd.DataFrame(columns=['name','tracer_contribution','nature_iso_contribution','total_peakarea','percent'])
         li=[]
         for i in self.molecules:
-            total=sum([self.molecules[i].tracer_contribution[j] for j in self.molecules[i].tracer_contribution])
+            total=sum([max(self.molecules[i].tracer_contribution[j],0) for j in self.molecules[i].tracer_contribution])
             total+=Decimal(self.molecules[i].peaks[0])
             for j in self.molecules[i].iso_contribution:
                 new_row={}
                 new_row['name']=i+'  M+%d'%j
                 new_row['tracer_contribution']=self.molecules[i].tracer_contribution[j]
-                new_row['nature_iso_contribution']=self.molecules[i].iso_contribution[j]
+                new_row['nature_iso_contribution']=max(self.molecules[i].iso_contribution[j],0)
                 new_row['total_peakarea']=self.molecules[i].peaks[j]
-                new_row['percent']=self.molecules[i].tracer_contribution[j]/(Decimal(total)+Decimal(1))
+                new_row['percent']=max(self.molecules[i].tracer_contribution[j],0)/(Decimal(total)+Decimal(1))
                 if j==0:
                     new_row['tracer_contribution']=0
                     new_row['nature_iso_contribution']=self.molecules[i].peaks[0]
@@ -147,6 +147,7 @@ class Data_CDF:
             pass
         name=self.file_name.split('/')[-1]
         m.to_excel('result\\'+name+'.xlsx')
+
   
 
 class Data:
@@ -185,15 +186,15 @@ class Data:
         m=pd.DataFrame(columns=['name','tracer_contribution','nature_iso_contribution','total_peakarea','percent'])
         li=[]
         for i in self.molecules:
-            total=sum([self.molecules[i].tracer_contribution[j] for j in self.molecules[i].tracer_contribution])
+            total=sum([max(self.molecules[i].tracer_contribution[j],0) for j in self.molecules[i].tracer_contribution])
             total+=Decimal(self.molecules[i].peaks[0])
             for j in self.molecules[i].iso_contribution:
                 new_row={}
                 new_row['name']=i+'  M+%d'%j
                 new_row['tracer_contribution']=self.molecules[i].tracer_contribution[j]
-                new_row['nature_iso_contribution']=self.molecules[i].iso_contribution[j]
+                new_row['nature_iso_contribution']=max(self.molecules[i].iso_contribution[j],0)
                 new_row['total_peakarea']=self.molecules[i].peaks[j]
-                new_row['percent']=self.molecules[i].tracer_contribution[j]/(Decimal(total)+Decimal(1))
+                new_row['percent']=max(self.molecules[i].tracer_contribution[j],0)/(Decimal(total)+Decimal(1))
                 if j==0:
                     new_row['tracer_contribution']=0
                     new_row['nature_iso_contribution']=self.molecules[i].peaks[0]
