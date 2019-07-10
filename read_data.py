@@ -153,9 +153,9 @@ class Data_CDF:
 class Data:
     def __init__(self,file_name,tracer='C',name='化合物名称',peak_area='面积',type='xls',derivated=True):
         if type=='xls':
-            p=pandas.read_excel(file_name,'QRes')
+            p=pd.read_excel(file_name)
         elif type=='csv':
-            p=pandas.read_csv(file_name)
+            p=pd.read_csv(file_name)
         
         if derivated==True:
             self.form='derive_formula'
@@ -215,9 +215,9 @@ class Data:
 class Data_mul:
     def __init__(self,file_name,tracer='C',type='xls',derivated=True,sheet='QRes'):
         if type=='xls':
-            p=pandas.read_excel(file_name,sheet)
+            p=pd.read_excel(file_name,sheet)
         elif type=='csv':
-            p=pandas.read_csv(file_name)
+            p=pd.read_csv(file_name)
         
         if derivated==True:
             self.form='derive_formula'
@@ -255,7 +255,7 @@ class Data_mul:
 
 
     def output(self,file_name):
-        result_file=pandas.DataFrame(columns=[i for i in range(len(self.data.columns))])
+        result_file=pd.DataFrame(columns=[i for i in range(len(self.data.columns))])
         result=[]
         for i in self.molecules:
             for j in i:
